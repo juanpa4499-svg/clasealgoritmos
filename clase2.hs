@@ -18,7 +18,7 @@ type Dorsal = Int
 
 data Modalidad = Carretera | Pista | Monte | BMX
 
-data Posicion = Gk | Dfc | Mc | Dc | Ei | Ed
+data Posicion = Arco | Defensa | Mediocampo | Delantera
 
 data PiernaHabil = Derecha | Izquierda
 
@@ -45,7 +45,7 @@ esTenista d = False
 -- Dado un deportista, devuelve True si es defensor, False caso contrario
 
 esDfc :: Deportista -> Bool
-esDfc (Futbolista p Dfc d a) = True
+esDfc (Futbolista p Defensa d a) = True
 esDfc d = False
 
 -- 🔥️🗣️Dado un deportista, devuelve True si su mano o pierna habil es la derecha, False caso contrario 
@@ -61,13 +61,70 @@ contarVelocistas (d:xs) = contarVelocistas xs
 
 contarFutbolistas :: [Deportista] -> Posicion -> Int
 contarFutbolistas [] z = 0
-contarFutbolistas ((Futbolista p Dfc d a):xs) Dfc = 1 + contarFutbolistas xs Dfc
-contarFutbolistas ((Futbolista p Gk d a):xs) Gk = 1 + contarFutbolistas xs Gk
-contarFutbolistas ((Futbolista p Mc d a):xs) Mc = 1 + contarFutbolistas xs Mc
-contarFutbolistas ((Futbolista p Dc d a):xs) Dc = 1 + contarFutbolistas xs Dc
-contarFutbolistas ((Futbolista p Ei d a):xs) Ei = 1 + contarFutbolistas xs Ei
-contarFutbolistas ((Futbolista p Ed d a):xs) Ed = 1 + contarFutbolistas xs Ed
+contarFutbolistas ((Futbolista p Defensa d a):xs) Defensa = 1 + contarFutbolistas xs Defensa
+contarFutbolistas ((Futbolista p Arco d a):xs) Arco = 1 + contarFutbolistas xs Arco
+contarFutbolistas ((Futbolista p Mediocampo d a):xs) Mediocampo = 1 + contarFutbolistas xs Mediocampo
+contarFutbolistas ((Futbolista p Delantera d a):xs) Delantera = 1 + contarFutbolistas xs Delantera
 contarFutbolistas (d:xs) z = contarFutbolistas xs z
+
+-- Dado una lista de deportistas, devuelve True Si alguno es Messi (Un Futbolista Zurdo, Dorsal 10, Delantera y mide 170cm) Caso Contrario False
+algunoesMessi :: [Deportista] -> Bool 
+algunoesMessi [] = False
+algunoesMessi ((Futbolista Izquierda Delantera 10 170):xs) = True
+algunoesMessi ((x:xs)) = algunoesMessi xs
+
+type GasolinaEnLitros = Int
+type CantidadRuedas = Int
+data Motor = Nafta | Diesel | Electrico | Hibrido
+data Automotor = Auto Motor GasolinaEnLitros
+               | Camion Motor GasolinaEnLitros CantidadRuedas
+               
+contarTanquesVacios :: [Automotor] -> Int
+contarTanquesVacios [] = 0
+contarTanquesVacios ((Auto m 0):xs) = 1 + contarTanquesVacios xs
+contarTanquesVacios ((Camion m 0 r):xs) = 1 + contarTanquesVacios xs
+contarTanquesVacios (a:xs) = contarTanquesVacios xs
+
+type Nombre = String
+type Director = Nombre
+type Duracion = Int
+type FechaEstreno = Duracion
+type FechaEstrenoTemporada = Duracion
+type NroCapitulo = Duracion
+type Temporada = Duracion
+data Video = Pelicula Nombre Director Duracion FechaEstreno
+           | CapSerie Nombre NroCapitulo Temporada FechaEstrenoTemporada
+
+elPadrino :: Video 
+elPadrino = Pelicula "El Padrino" "Francis Ford Coppola" 177 1972
+
+
+breakingBadS01E01 :: Video
+breakingBadS01E01 = CapSerie "BreakingBad" 1 1 2008
+
+-- Dado un Video, devuelve True si el video es el primer capıtulo de la primera temporada de una serie, False caso contrario.
+esPrimerCapitulo :: Video -> Bool
+esPrimerCapitulo (CapSerie n 1 1 f) = True
+esPrimerCapitulo v = False
+
+esEstreno2024 :: Video -> Bool
+esEstreno2024 (Pelicula n d l 2024) = True
+esEstreno2024 v = False
+
+
+-- que dada una lista de de videos, devuelve la duraci ́on de la pel ́ıcula m ́as larga. En caso que no haya pel ́ıculas devuelve 0.
+duracionPeliMasLarga :: [Video] -> Int
+duracionPeliMasLarga [] = 0
+duracionPeliMasLarga ((Pelicula n d l f):xs) = max l (duracionPeliMasLarga xs)
+duracionPeliMasLarga (v:xs) = duracionPeliMasLarga xs
+
+
+
+
+
+
+
+
 
 
 
