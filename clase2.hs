@@ -48,12 +48,26 @@ esDfc :: Deportista -> Bool
 esDfc (Futbolista p Dfc d a) = True
 esDfc d = False
 
--- Dado un deportista, devuelve True si su mano o pierna habil es la derecha, False caso contrario 
+-- 🔥️🗣️Dado un deportista, devuelve True si su mano o pierna habil es la derecha, False caso contrario 
 esDiestro :: Deportista -> Bool
 esDiestro (Futbolista Derecha p d a) = True
 esDiestro (Tenista Derecha t a) = True
 esDiestro d = False
 
+contarVelocistas :: [Deportista] -> Int
+contarVelocistas [] = 0
+contarVelocistas ((Velocista a):xs) = 1 + contarVelocistas xs
+contarVelocistas (d:xs) = contarVelocistas xs
+
+contarFutbolistas :: [Deportista] -> Posicion -> Int
+contarFutbolistas [] z = 0
+contarFutbolistas ((Futbolista p Dfc d a):xs) Dfc = 1 + contarFutbolistas xs Dfc
+contarFutbolistas ((Futbolista p Gk d a):xs) Gk = 1 + contarFutbolistas xs Gk
+contarFutbolistas ((Futbolista p Mc d a):xs) Mc = 1 + contarFutbolistas xs Mc
+contarFutbolistas ((Futbolista p Dc d a):xs) Dc = 1 + contarFutbolistas xs Dc
+contarFutbolistas ((Futbolista p Ei d a):xs) Ei = 1 + contarFutbolistas xs Ei
+contarFutbolistas ((Futbolista p Ed d a):xs) Ed = 1 + contarFutbolistas xs Ed
+contarFutbolistas (d:xs) z = contarFutbolistas xs z
 
 
 
