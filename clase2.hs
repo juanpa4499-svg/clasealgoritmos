@@ -88,12 +88,12 @@ contarTanquesVacios (a:xs) = contarTanquesVacios xs
 type Nombre = String
 type Director = Nombre
 type Duracion = Int
-type FechaEstreno = Duracion
-type FechaEstrenoTemporada = Duracion
+type Estreno = Duracion
+type EstrenoTemporada = Duracion
 type NroCapitulo = Duracion
 type Temporada = Duracion
-data Video = Pelicula Nombre Director Duracion FechaEstreno
-           | CapSerie Nombre NroCapitulo Temporada FechaEstrenoTemporada
+data Video = Pelicula Nombre Director Duracion Estreno
+           | CapSerie Nombre NroCapitulo Temporada EstrenoTemporada deriving (Show, Eq) 
 
 elPadrino :: Video 
 elPadrino = Pelicula "El Padrino" "Francis Ford Coppola" 177 1972
@@ -108,7 +108,7 @@ esPrimerCapitulo (CapSerie n 1 1 f) = True
 esPrimerCapitulo v = False
 
 esEstreno2024 :: Video -> Bool
-esEstreno2024 (Pelicula n d l 2024) = True
+esEstreno2024 (Pelicula n d l 2026) = True
 esEstreno2024 v = False
 
 
@@ -118,6 +118,26 @@ duracionPeliMasLarga [] = 0
 duracionPeliMasLarga ((Pelicula n d l f):xs) = max l (duracionPeliMasLarga xs)
 duracionPeliMasLarga (v:xs) = duracionPeliMasLarga xs
 
+
+type Artista = Nombre
+type Temas = [String]
+data Lanzamiento = Album Nombre Artista Temas Estreno
+                 | Sencillo Nombre Artista Duracion Estreno deriving (Show, Eq)
+
+clicsModernos :: Lanzamiento
+clicsModernos = Album "Clics Modernos" "Charly Garcia" ["Nos siguen pegando abajo", "Dos Cero Uno", "Nuevos trapos"] 1983
+
+astros :: Lanzamiento
+astros = Sencillo "Astros" "Ciro y los Persas" 251 2012
+
+comoAli :: Lanzamiento
+comoAli = Sencillo "Como Ali" "Ciro y los Persas" 211 2003
+
+minsencillosArtista :: [Lanzamiento] -> Artista -> Int
+minsencillosArtista [] n = 0
+minsencillosArtista ((Sencillo n a d e):xs) s | a == s = d + minsencillosArtista xs s
+                                              | a /= s = minsencillosArtista xs s
+minsencillosArtista (x:xs) s = minsencillosArtista xs s
 
 
 
