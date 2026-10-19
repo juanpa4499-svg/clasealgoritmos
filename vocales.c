@@ -6,6 +6,7 @@ caracter es una */
 #include <stdio.h>
 
 bool es_vocal (char letra) {
+ // definir la variable res.
  return (letra ==  'a' || letra == 'e' || letra == 'i' || letra == 'o' || letra == 'u' || letra ==  'A' || letra == 'E' || letra == 'I' || letra == 'O' || letra == 'U');
 }
 
